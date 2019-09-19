@@ -1,68 +1,80 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>My Web Note</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://fonts.google.com/specimen/Josefin+Sans">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.google.com/specimen/Josefin+Sans"
+    />
     <style>
-        body {
-            background-image: url("https://ak0.picdn.net/shutterstock/videos/935170/thumb/1.jpg");
-        }
+      body {
+        background-image: url("https://ak0.picdn.net/shutterstock/videos/935170/thumb/1.jpg");
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class=" container">
-        <div class="raw" style="font-family: Josefin Sans, serif">
-            <h1 class="font-weight-bold text-center mt-5 mb-4">Take Notes Here!!!</h1>
-            <div class="border rounded" id="note" style="overflow-y: scroll; height: 200px; background-color: white" contenteditable></div>
+      <div class="raw" style="font-family: Josefin Sans, serif">
+        <h1 class="font-weight-bold text-center mt-5 mb-4">
+          Take Notes Here!!!
+        </h1>
+        <div
+          class="border rounded"
+          id="note"
+          style="overflow-y: scroll; height: 200px; background-color: white"
+          contenteditable
+        ></div>
+      </div>
+      <div class="raw">
+        <div class="text-right my-3">
+          <button id="clear" class="btn btn-primary px-4">Clear</button>
+          <button id="save" class="btn btn-primary px-4">Save</button>
         </div>
-        <div class="raw">
-            <div class="text-right my-3">
-                <button id="clear" class="btn btn-primary px-4">Clear</button>
-                <button id="save" class="btn btn-primary px-4">Save</button>
-            </div>
-        </div>
+      </div>
     </div>
 
     <script src="https://unpkg.com/filer/dist/filer.min.js"></script>
     <script>
-        const fs = new Filer.FileSystem();
-        var note = document.querySelector('#note');
+      const fs = new Filer.FileSystem();
+      var note = document.querySelector("#note");
 
-        window.addEventListener('DOMContentLoaded', (event) => {
-            note.focus();
-            fs.readFile('/note', 'utf8', function (err, data) {
-                if (err) {
-                    console.log("Welcome to my notepad!");
-                    throw err;
-                }
-                if (data) note.innerHTML = data;
-            });
-
-            document.querySelector('#clear').addEventListener("click", clearContent);
-            document.querySelector('#save').addEventListener("click", saveContent);
+      window.addEventListener("DOMContentLoaded", event => {
+        fs.readFile("/note", "utf8", function(err, data) {
+          if (err) {
+            throw err;
+          }
+          if (data) note.innerHTML = data;
+          else note.innerHTML = "Welcome to my notepad!";
         });
 
-        function saveContent() {
-            fs.writeFile('/note', note.innerHTML, function (err) {
-                if (err) throw err;
+        document
+          .querySelector("#clear")
+          .addEventListener("click", clearContent);
+        document.querySelector("#save").addEventListener("click", saveContent);
+      });
 
-                if (note.innerHTML)
-                    alert("Contents saved!");
-            });
-        }
+      function saveContent() {
+        fs.writeFile("/note", note.innerHTML, function(err) {
+          if (err) throw err;
 
-        function clearContent() {
-            fs.writeFile('/note', "", function (err) {
-                if (err) throw err;
-                note.innerHTML = "";
-            });
-        }
+          if (note.innerHTML) alert("Contents saved!");
+        });
+      }
+
+      function clearContent() {
+        fs.writeFile("/note", "", function(err) {
+          if (err) throw err;
+          note.innerHTML = "";
+        });
+      }
     </script>
-</body>
-
+  </body>
 </html>
